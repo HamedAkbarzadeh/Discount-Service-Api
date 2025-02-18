@@ -11,13 +11,24 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/dotenv": "^8.2.3",
     "@types/ioredis": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^22.13.1",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "ioredis": "^5.5.0"
+    "@types/express": "^5.0.0",
+    "@types/helmet": "^4.0.0",
+    "debug": "^4.4.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "ioredis": "^5.5.0",
+    "mongoose": "^8.10.1",
+    "zod": "^3.24.2"
   }
 }
