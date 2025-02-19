@@ -1,8 +1,8 @@
-import { Request, Response } from "express"
-import { stat } from "node:fs/promises"
-export class Controller {
+import { Response } from "express";
 
-    response({ res, message, data = {}, statusCode = 200 }: { res: Response, message: string, data?: any, statusCode?: number }) {
+export default class {
+
+    protected results({ res, message, data = {}, statusCode = 200 }: { res: Response, message: string, data?: any, statusCode?: number }) {
         res.status(statusCode).json({
             message,
             data,
@@ -10,3 +10,4 @@ export class Controller {
         });
     }
 }
+

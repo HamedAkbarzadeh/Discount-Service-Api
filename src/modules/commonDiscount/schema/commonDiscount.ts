@@ -7,7 +7,7 @@ const commonDiscountSchema = new mongoose.Schema({
     price: { type: Number, require: true },
     code: { type: String, required: true, unique: true },
     status: { type: Boolean, default: true },
-    expiredAt: { type: Date, required: true }
+    expiredAt: { type: Date }
 
 },
     {

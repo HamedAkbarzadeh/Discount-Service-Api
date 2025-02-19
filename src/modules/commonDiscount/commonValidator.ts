@@ -7,8 +7,7 @@ const createCommonSchema = z.object({
     type: z.boolean().optional(),
     price: z.number(),
     code: z.string(),
-    status: z.boolean().optional(),
-    expiredAt: z.date()
+    status: z.boolean().optional()
 });
 
 

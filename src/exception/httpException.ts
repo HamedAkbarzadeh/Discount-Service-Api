@@ -6,4 +6,5 @@ export class HttpException extends Error {
 export enum ErrorCode {
     BAD_REQUEST = 1001,
     NOTFOUND_REQUEST = 1004,
+    INTERNAL_EXCEPTION = 5000,
 }
