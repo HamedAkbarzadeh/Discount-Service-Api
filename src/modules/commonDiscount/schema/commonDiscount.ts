@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import MongooseDelete from "mongoose-delete";
-const commonDiscountSchema = new mongoose.Schema({
+export const commonDiscountSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String },
     type: { type: Boolean, default: true, comment: "0 => percent format , 1 => price format" },
