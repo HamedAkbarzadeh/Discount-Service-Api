@@ -3,7 +3,24 @@ import { CommonDiscount } from "./schema/commonDiscount";
 import Controller from "../controller";
 
 class CommonController extends Controller {
+    async all(_req: Request, res: Response) {
+        const commons = await CommonDiscount.find();
 
+        return this.response({
+            res: res,
+            message: "successfuly to show all common discount",
+            data: { commons },
+        })
+    }
+    async show(req: Request, res: Response) {
+        const common = await CommonDiscount.findById(req.body.id);
+
+        return this.response({
+            res: res,
+            message: "successfuly to show common discount",
+            data: { common },
+        })
+    }
     async store(req: Request, res: Response) {
 
         let { name, description, type, price, code, status, expiredAt } = req.body;
@@ -21,15 +38,7 @@ class CommonController extends Controller {
 
         this.response({ res, message: "successfuly to added common discount", data: { common } });
     }
-    async all(_req: Request, res: Response) {
-        const commons = await CommonDiscount.find();
 
-        return this.response({
-            res: res,
-            message: "successfuly to show all common discount",
-            data: { commons },
-        })
-    }
     async update(req: Request, res: Response) {
         const { id, name, description, type, price, code, status } = req.body;
         const common = await CommonDiscount.updateOne({

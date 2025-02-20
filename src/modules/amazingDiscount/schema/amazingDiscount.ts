@@ -3,8 +3,9 @@ import MongooseDelete from "mongoose-delete";
 const amazingDiscountSchema: Schema = new Schema({
     name: { type: String, required: true },
     description: { type: Text },
-    type: { type: Boolean, comment: "0 => percent format , 1 => price format" },
+    price_type: { type: Boolean, comment: "0 => percent format , 1 => price format" },
     price: { type: Number, require: true },
+    users_type: { type: Boolean, default: false, comment: "0 => for ull users , 1 => for some users" },
     users: [{ type: String }],
     products: [{ type: String }],
     code: { type: String, required: true, unique: true },
