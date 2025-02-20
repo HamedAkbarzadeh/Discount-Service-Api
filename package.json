@@ -22,6 +22,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "auto-bind": "^4.0.0",
     "@types/express": "^5.0.0",
     "@types/helmet": "^4.0.0",
     "debug": "^4.4.0",
