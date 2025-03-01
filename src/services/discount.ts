@@ -1,7 +1,7 @@
 import { Model } from "mongoose";
 import { ErrorCode } from "../exception/httpException";
 import { NotFoundException } from "../exception/notFoundException";
-import { AmazingDiscount } from "../modules/amazingDiscount/schema/amazingDiscount";
+import { AmazingDiscount, IAmazing } from "../modules/amazingDiscount/schema/amazingDiscount";
 import { CommonDiscount, ICommon } from "../modules/commonDiscount/schema/commonDiscount";
 
 enum discountTypeEnum {
@@ -11,9 +11,12 @@ enum discountTypeEnum {
 class Discount {
     type: discountTypeEnum | undefined;
     commonDiscount: ICommon | null = null;
-
-    constructor(public code: string, public productPrice: number) {
+    amazingDiscount: IAmazing | null = null;
+    public amazingUser: string | null;
+    constructor(public code: string, public productPrice: number, amazingUser: string | null = null) {
+        this.amazingUser = amazingUser;
         this.setType();
+
     }
     async setType() {
         if (await this.existAmazing()) {
@@ -24,7 +27,7 @@ class Discount {
             this.type = undefined
         }
     }
-    async existCommon() {
+    async existCommon(): Promise<boolean> {
         const common: ICommon | null = await CommonDiscount.findOne({ code: this.code });
         if (common) {
             this.commonDiscount = common;
@@ -40,22 +43,36 @@ class Discount {
         return false;
     }
     async calculateDiscount(code: string) {
+        let discountAmount: number = 0, totalPriceWithDiscount: number = 0;
+
         if (this.type == discountTypeEnum.COMMON_DISCOUNT) {
-            let discountAmount: number;
+            //if discount format with percent
             if (this.commonDiscount?.type == false) {
-                //if discount format with percent
                 discountAmount = (this.commonDiscount.price * this.productPrice) / 100;
 
             } else {
                 //if discount format with price
                 discountAmount = this.commonDiscount?.price!;
             }
-            const totalPriceWithDiscount = this.productPrice - discountAmount;
-            return totalPriceWithDiscount;
         } else if (this.type == discountTypeEnum.AMAZING_DISCOUNT) {
+            // check user_type (for all users OR some users)
+            if (this.amazingUser) {
+                if (!this.amazingDiscount?.users.includes(this.amazingUser)) {
+                    return new NotFoundException("users not found for amazing discount", ErrorCode.NOTFOUND_REQUEST, 404, null);
+                }
+            }
 
+            // check for price format (percent or amount)
+            if (this.amazingDiscount?.price_type == false) {
+                //price format is percent
+                discountAmount = (this.amazingDiscount.price * this.productPrice) / 100;
+            } else {
+                discountAmount = this.amazingDiscount?.price as number;
+            }
         }
+        totalPriceWithDiscount = this.productPrice - discountAmount;
 
+        return totalPriceWithDiscount;
 
         // new NotFoundException("common / amazing discount not found", ErrorCode.NOTFOUND_REQUEST, 404, null);
     }

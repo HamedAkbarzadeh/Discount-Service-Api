@@ -1,5 +1,23 @@
 import mongoose, { Schema } from "mongoose";
 import MongooseDelete from "mongoose-delete";
+
+
+export interface IAmazing {
+    name: string;
+    description: Text;
+    price_type: boolean;
+    price: number;
+    users_type: boolean;
+    users: [string];
+    products: [string];
+    code: string;
+    status: boolean;
+    expiredAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
+}
+
 const amazingDiscountSchema: Schema = new Schema({
     name: { type: String, required: true },
     description: { type: Text },
